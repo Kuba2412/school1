@@ -1,0 +1,21 @@
+meta {
+  name: edit student
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/students/{id}
+  body: none
+  auth: none
+}
+
+tests {
+  {
+      "id": 1,
+      "firstName": "Jan",
+      "lastName": "Nowak",
+      "email": "jan.nowak@example.com",
+      "phoneNumber": "987654321"
+  }
+}

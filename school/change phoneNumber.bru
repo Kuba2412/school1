@@ -1,0 +1,15 @@
+meta {
+  name: change phoneNumber
+  type: http
+  seq: 7
+}
+
+patch {
+  url: http://localhost:8080/students/{id}/changePhoneNumber?newPhoneNumber=987654321
+  body: none
+  auth: none
+}
+
+query {
+  newPhoneNumber: 987654321
+}
