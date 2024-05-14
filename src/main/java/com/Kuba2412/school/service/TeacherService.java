@@ -22,7 +22,7 @@ public class TeacherService {
         return teacherRepository.getAllTeachers();
     }
 
-    public Optional<Teacher> getTeacher(int id) {
+    public Optional<Teacher> getTeacher(Long id) {
         return teacherRepository.getTeacher(id);
     }
 
@@ -30,7 +30,7 @@ public class TeacherService {
         return teacherRepository.addTeacher(teacher);
     }
 
-    public void deleteTeacher(int id) {
+    public void deleteTeacher(Long id) {
         teacherRepository.deleteTeacher(id);
     }
 
@@ -38,11 +38,8 @@ public class TeacherService {
         teacherRepository.editTeacher(teacher);
     }
 
-    public void changePhoneNumber(int id, String newPhoneNumber) {
+    public void changePhoneNumber(Long id, String newPhoneNumber) {
         teacherRepository.changePhoneNumber(id, newPhoneNumber);
     }
 
-    public List<Teacher> getTeachersByGender(String gender) {
-        return teacherRepository.getTeachersByGender(gender);
-    }
 }

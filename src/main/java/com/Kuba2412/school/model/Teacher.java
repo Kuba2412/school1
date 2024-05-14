@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class Teacher {
-    private int id;
+    private Long id;
     private String phoneNumber;
     private String firstName;
     private String lastName;
