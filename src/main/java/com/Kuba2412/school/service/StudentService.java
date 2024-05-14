@@ -22,7 +22,7 @@ public class StudentService {
         return studentRepository.getAllStudents();
     }
 
-    public Optional<Student> getStudent(int id) {
+    public Optional<Student> getStudent(Long id) {
         return studentRepository.getStudent(id);
     }
 
@@ -30,19 +30,17 @@ public class StudentService {
         return studentRepository.addStudent(student);
     }
 
-    public void deleteStudent(int id) {
+    public void deleteStudent(Long id) {
         studentRepository.deleteStudent(id);
     }
 
-    public void editStudent(Student student) {
+    public Student editStudent(Student student) {
         studentRepository.editStudent(student);
+        return student;
     }
 
-    public void changePhoneNumber(int id, String newPhoneNumber) {
+    public void changePhoneNumber(Long id, String newPhoneNumber) {
         studentRepository.changePhoneNumber(id, newPhoneNumber);
     }
 
-    public List<Student> getStudentsByLastName(String lastName) {
-        return studentRepository.getStudentsByLastName(lastName);
-    }
 }

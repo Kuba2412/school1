@@ -3,51 +3,53 @@ package com.Kuba2412.school.controller;
 import com.Kuba2412.school.model.Teacher;
 import com.Kuba2412.school.service.TeacherService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/teacher")
+@RequestMapping("/teachers")
 public class TeacherController {
 
-    @Autowired
-    private TeacherService teacherService;
 
-    @PostMapping("/add")
+    private final TeacherService teacherService;
+
+    @PostMapping
     public void addTeacher(@RequestBody Teacher teacher) {
         teacherService.addTeacher(teacher);
     }
 
     @GetMapping("/{id}")
-    public Optional<Teacher> getTeacher(@PathVariable int id) {
+    public Optional<Teacher> getTeacher(@PathVariable Long id) {
         return teacherService.getTeacher(id);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteTeacher(@PathVariable int id) {
+    @DeleteMapping("/{id}")
+    public void deleteTeacher(@PathVariable Long id) {
         teacherService.deleteTeacher(id);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("{id}")
     public void editTeacher(@RequestBody Teacher teacher) {
         teacherService.editTeacher(teacher);
     }
 
-    @PatchMapping("/{id}/changePhoneNumber")
-    public void changePhoneNumber(@PathVariable int id, @RequestParam String newPhoneNumber) {
+    @PatchMapping("/{id}/phoneNumber")
+    public void changePhoneNumber(@PathVariable Long id, @RequestParam String newPhoneNumber) {
         teacherService.changePhoneNumber(id, newPhoneNumber);
     }
 
     @GetMapping
-    public List<Teacher> getAllTeachers() {
-        return teacherService.getAllTeachers();
-    }
-
-    @GetMapping("/byGender")
-    public List<Teacher> getTeachersByGender(@RequestParam String gender) {
-        return teacherService.getTeachersByGender(gender);
+    public List<Teacher> getTeachers(@RequestParam(required = false) String gender) {
+        List<Teacher> allTeachers = teacherService.getAllTeachers();
+        if (gender != null && !gender.isEmpty()) {
+            return allTeachers.stream()
+                    .filter(teacher -> teacher.getGender().equalsIgnoreCase(gender))
+                    .toList();
+        } else {
+            return allTeachers;
+        }
     }
 }

@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 @Repository
 public class TeacherRepository {
 
-    private List<Teacher> teachers = new ArrayList<>();
+    private final List<Teacher> teachers = new ArrayList<>();
 
     public List<Teacher> getAllTeachers() {
-        return teachers;
+        return new ArrayList<>(teachers);
     }
 
-    public Optional<Teacher> getTeacher(int id) {
+    public Optional<Teacher> getTeacher(Long id) {
         return teachers.stream()
-                .filter(teacher -> teacher.getId() == id)
+                .filter(teacher -> teacher.getId().equals(id))
                 .findFirst();
     }
 
@@ -28,35 +28,25 @@ public class TeacherRepository {
         return teacher;
     }
 
-    public void deleteTeacher(int id) {
-        teachers.removeIf(teacher -> teacher.getId() == id);
+    public void deleteTeacher(Long id) {
+        teachers.removeIf(teacher -> teacher.getId().equals(id));
     }
 
     public void editTeacher(Teacher updatedTeacher) {
-        int index = -1;
-        for (int i = 0; i < teachers.size(); i++) {
-            if (teachers.get(i).getId() == updatedTeacher.getId()) {
-                index = i;
-                break;
-            }
-        }
-        if (index != -1) {
-            teachers.set(index, updatedTeacher);
-        }
+        teachers.stream()
+                .filter(teacher -> teacher.getId().equals(updatedTeacher.getId()))
+                .findFirst()
+                .ifPresent(teacher -> {
+                    int index = teachers.indexOf(teacher);
+                    teachers.set(index, updatedTeacher);
+                });
     }
 
-    public void changePhoneNumber(int id, String newPhoneNumber) {
-        for (Teacher teacher : teachers) {
-            if (teacher.getId() == id) {
-                teacher.setPhoneNumber(newPhoneNumber);
-                break;
-            }
-        }
+    public void changePhoneNumber(Long id, String newPhoneNumber) {
+        teachers.stream()
+                .filter(teacher -> teacher.getId().equals(id))
+                .findFirst()
+                .ifPresent(teacher -> teacher.setPhoneNumber(newPhoneNumber));
     }
 
-    public List<Teacher> getTeachersByGender(String gender) {
-        return teachers.stream()
-                .filter(teacher -> teacher.getGender().equalsIgnoreCase(gender))
-                .collect(Collectors.toList());
-    }
 }
